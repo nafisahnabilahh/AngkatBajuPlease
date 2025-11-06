@@ -1,0 +1,165 @@
+{
+  "name": "AngkatBaju Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            },
+            {}
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "85f833ba-3de2-467a-8507-3215b19fbe1e",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "url": "https://api.open-meteo.com/v1/forecast?latitude=3.139&longitude=101.6869&current=precipitation",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "json"
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "f00e20e5-8c3b-48e4-ab85-1bfb66227824",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "869fd5ee-a915-42cb-ab31-23a0d16287ff",
+              "leftValue": "={{$json[\"current\"][\"precipitation\"]}}",
+              "rightValue": -1,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        0
+      ],
+      "id": "ff775f45-adc3-4c10-8292-31e508e1b2ac",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "305110551",
+        "text": "hi babe! now hujan, angkat baju pleasee",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        624,
+        -48.5
+      ],
+      "id": "3b3c22c3-4d5a-465e-a196-1b598d7a1791",
+      "name": "Send a text message",
+      "webhookId": "04c563cb-635a-4013-8204-eab47463a328",
+      "credentials": {
+        "telegramApi": {
+          "id": "obGjMvEMtVaC0nLc",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-11-06T11:04:39.638+08:00",
+          "Readable date": "November 6th 2025, 11:04:39 am",
+          "Readable time": "11:04:39 am",
+          "Day of week": "Thursday",
+          "Year": "2025",
+          "Month": "November",
+          "Day of month": "06",
+          "Hour": "11",
+          "Minute": "04",
+          "Second": "39",
+          "Timezone": "Asia/Kuala_Lumpur (UTC+08:00)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "7f0d9aeb-050b-4c6d-b23f-53fc9f55036c",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "cd756defc1a128ac590e10cff1583561a5fee3fd018d962b12dd9b4a3d151124"
+  },
+  "id": "B9reDtbRQg3Bm71h",
+  "tags": []
+}
