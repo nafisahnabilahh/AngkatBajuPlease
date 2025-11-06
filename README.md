@@ -11,3 +11,5 @@ Now, whenever it rains, he’ll get a Telegram message saying it’s time to *an
 4. **Telegram Node** – sends an automated message to my husband’s Telegram.
 
 ### Example Flow
+Workflow - https://github.com/nafisahnabilahh/AngkatBajuPlease/blob/main/Workflow.png
+Message example- https://github.com/nafisahnabilahh/AngkatBajuPlease/blob/main/MessageExample.png
